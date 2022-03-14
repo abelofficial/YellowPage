@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<YellowPageDb>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("YellowPageDb")));
 
 // Add services to the container.
 
