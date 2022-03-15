@@ -10,6 +10,12 @@ export class YellowPageApi extends HttpClientBase {
 
   public getPeople = () => this.instance.get<Person[]>("/person");
 
+  public createPeople = (person: Person) =>
+    this.instance.post<Person>("/person", person);
+
+  public createBusiness = (business: Business) =>
+    this.instance.post<Business>("/business", business);
+
   public getBusiness = (id: number) =>
     this.instance.get<Business>(`/users/${id}`);
 }

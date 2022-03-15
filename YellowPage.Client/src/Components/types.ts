@@ -1,19 +1,19 @@
 export interface Business {
-  id: number;
+  id?: number;
   name: string;
-  description?: number;
+  description?: string;
   contact: Contact;
 }
 
 export interface Person {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   contact: Contact;
 }
 
 export interface Contact {
-  id: number;
+  id?: number;
   email: string;
   phoneNumber: string;
   webSite: string;
@@ -21,7 +21,7 @@ export interface Contact {
 }
 
 export interface Location {
-  id: number;
+  id?: number;
   country: string;
   city: string;
   zipCode: string;
