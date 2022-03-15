@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace YellowPage.Api.Models;
 
 public class Location
@@ -12,6 +14,7 @@ public class Location
 
     public string Address { get; set; }
 
+    [JsonIgnore]
     public virtual List<Contact> Contacts { get; set; }
 
 }

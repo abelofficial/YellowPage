@@ -1,107 +1,99 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using YellowPage.Api.Dtos;
 using YellowPage.Api.Models;
 
 namespace YellowPage.Api.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class BusinessController : ControllerBase
     {
         private readonly YellowPageDb _context;
-
-        public BusinessController(YellowPageDb context)
+        public readonly IMapper _mapper;
+        public BusinessController(YellowPageDb context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        // GET: api/Business
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Business>>> GetBusiness()
         {
-            return await _context.Business.ToListAsync();
+            return await _context.Business.Include(b => b.Contact.Location).ToListAsync();
         }
 
-        // GET: api/Business/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Business>> GetBusiness(int id)
         {
-            var business = await _context.Business.FindAsync(id);
+            var targetBusiness = await getTargetBusinessQuery(id).SingleOrDefaultAsync();
 
-            if (business == null)
+            if (targetBusiness == null)
             {
                 return NotFound();
             }
 
-            return business;
+            return Ok(targetBusiness);
         }
 
-        // PUT: api/Business/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBusiness(int id, Business business)
+        public async Task<IActionResult> PutBusiness(int id, BusinessRequestDto request)
         {
-            if (id != business.Id)
+            var targetBusiness = await getTargetBusinessQuery(id).SingleOrDefaultAsync();
+
+            if (targetBusiness == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-
-            _context.Entry(business).State = EntityState.Modified;
-
+            _mapper.Map(request, targetBusiness);
+            _context.Entry(targetBusiness).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch
             {
-                if (!BusinessExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return Problem();
             }
 
-            return NoContent();
+            return Ok(targetBusiness);
         }
 
-        // POST: api/Business
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Business>> PostBusiness(Business business)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<ActionResult<Business>> PostBusiness(BusinessRequestDto request)
         {
-            _context.Business.Add(business);
+            var mappedBussiness = _mapper.Map<Business>(request);
+            var newBusiness = _context.Business.Add(mappedBussiness).Entity;
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBusiness", new { id = business.Id }, business);
+            return CreatedAtAction(nameof(GetBusiness), new { id = newBusiness.Id }, newBusiness);
         }
 
         // DELETE: api/Business/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteBusiness(int id)
         {
-            var business = await _context.Business.FindAsync(id);
-            if (business == null)
+            var targetBusiness = await getTargetBusinessQuery(id).SingleOrDefaultAsync();
+
+            if (targetBusiness == null)
             {
-                return NotFound();
+                return NoContent();
             }
 
-            _context.Business.Remove(business);
+            _context.Entry(targetBusiness).State = EntityState.Deleted;
+            _context.Entry(targetBusiness.Contact).State = EntityState.Deleted;
+            _context.Entry(targetBusiness.Contact.Location).State = EntityState.Deleted;
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BusinessExists(int id)
-        {
-            return _context.Business.Any(e => e.Id == id);
-        }
+        private IQueryable<Business> getTargetBusinessQuery(int id) => _context.Business
+                .Include(b => b.Contact.Location)
+                .Where(b => b.Id == id);
     }
 }

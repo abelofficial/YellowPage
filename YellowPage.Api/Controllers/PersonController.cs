@@ -1,107 +1,102 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using YellowPage.Api.Dtos;
 using YellowPage.Api.Models;
 
 namespace YellowPage.Api.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class PersonController : ControllerBase
     {
         private readonly YellowPageDb _context;
+        public readonly IMapper _mapper;
 
-        public PersonController(YellowPageDb context)
+        public PersonController(YellowPageDb context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        // GET: api/Person
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Person>>> GetPerson()
         {
             return await _context.Person.ToListAsync();
         }
 
-        // GET: api/Person/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Person>> GetPerson(int id)
         {
-            var person = await _context.Person.FindAsync(id);
+            var targetPerson = await getTargetPersonQuery(id).SingleOrDefaultAsync();
 
-            if (person == null)
+            if (targetPerson == null)
             {
                 return NotFound();
             }
 
-            return person;
+            return Ok(targetPerson);
         }
 
-        // PUT: api/Person/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPerson(int id, Person person)
+        public async Task<IActionResult> PutPerson(int id, PersonRequestDto request)
         {
-            if (id != person.Id)
+            var targetPerson = await getTargetPersonQuery(id).SingleOrDefaultAsync();
+
+            if (targetPerson == null)
             {
                 return BadRequest();
             }
 
-            _context.Entry(person).State = EntityState.Modified;
+            _mapper.Map(request, targetPerson);
+            _context.Entry(targetPerson).State = EntityState.Modified;
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch
             {
-                if (!PersonExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return Problem();
             }
-
-            return NoContent();
+            return Ok(targetPerson);
         }
 
-        // POST: api/Person
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Person>> PostPerson(Person person)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<ActionResult<Person>> PostPerson(PersonRequestDto request)
         {
-            _context.Person.Add(person);
+            var mappedPerson = _mapper.Map<Person>(request);
+            var newPerson = _context.Person.Add(mappedPerson).Entity;
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPerson", new { id = person.Id }, person);
+            return CreatedAtAction(nameof(GetPerson), new { id = newPerson.Id }, newPerson);
         }
 
         // DELETE: api/Person/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeletePerson(int id)
         {
-            var person = await _context.Person.FindAsync(id);
-            if (person == null)
+            var targetPerson = await getTargetPersonQuery(id).SingleOrDefaultAsync();
+
+            if (targetPerson == null)
             {
-                return NotFound();
+                return NoContent();
             }
 
-            _context.Person.Remove(person);
+            _context.Entry(targetPerson).State = EntityState.Deleted;
+            _context.Entry(targetPerson.Contact).State = EntityState.Deleted;
+            _context.Entry(targetPerson.Contact.Location).State = EntityState.Deleted;
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool PersonExists(int id)
-        {
-            return _context.Person.Any(e => e.Id == id);
-        }
+
+        private IQueryable<Person> getTargetPersonQuery(int id) => _context.Person
+                .Include(p => p.Contact.Location)
+                .Where(p => p.Id == id);
     }
 }

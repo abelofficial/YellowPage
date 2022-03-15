@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace YellowPage.Api.Models;
 
 public class Person
@@ -11,8 +9,5 @@ public class Person
     public string LastName { get; set; }
 
     public virtual Contact Contact { get; set; }
-
-    [NotMapped]
-    public string FullName { get => FirstName + " " + LastName; }
 
 }

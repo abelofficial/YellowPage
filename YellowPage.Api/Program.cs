@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<YellowPageDb>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("YellowPageDb")));
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -18,7 +18,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.DefaultModelsExpandDepth(-1);
+    });
 }
 
 app.UseHttpsRedirection();
