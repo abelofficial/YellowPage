@@ -15,7 +15,7 @@
 
 body {
   margin: 0;
-  padding-top: 5rem;
+  padding-top: 4.5rem;
   position: relative;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -51,7 +51,7 @@ code {
 .toolbar__link {
   text-decoration: none;
   color: var(--color-text-primary);
-  margin: 0 0.3rem;
+  margin: 0 0.5rem;
   font-weight: 500;
 }
 
@@ -69,6 +69,8 @@ code {
 
 .app__container {
   min-height: 100vh;
+  max-width: 50rem;
+  margin: 0 auto;
   position: relative;
   z-index: 1500;
 }
@@ -114,6 +116,25 @@ code {
   box-shadow: var(--boxShadow-light);
 }
 
+.card {
+  margin: 2rem auto;
+  padding: 1rem 0;
+  width: 90%;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--boxShadow-light);
+  border: 0.01em solid var(--color-lightGray);
+}
+
+.card__detailContainer {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0 1rem;
+}
+
 .text {
   color: var(--color-text-primary);
 }
@@ -124,13 +145,17 @@ code {
   font-weight: 500;
 }
 
-.text--color-yellow {
+.text--bold {
+  font-weight: 500;
+}
+.text--highlighted {
   color: var(--color-text-secondary);
 }
 
 .button {
   cursor: pointer;
-  padding: 0.5rem 2rem;
+  text-transform: capitalize;
+  padding: 0.5rem 1.5rem;
   width: fit-content;
   border-radius: 1rem;
   border: 0.01em solid var(--color-lightGray);
@@ -142,11 +167,29 @@ code {
 }
 
 .button__submit {
-  width: fit-content;
   align-self: center;
+}
+
+.button--pos-right {
+  margin: 0.5rem;
+  align-self: flex-end;
 }
 
 .button--bg-green {
   background-color: #008000;
   color: #fff;
+}
+
+.button--bg-red {
+  background-color: #da1515;
+  color: #fff;
+}
+
+.button--bg-yellow {
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+.spacing-xs {
+  padding: 0.2em;
 }

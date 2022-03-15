@@ -16,15 +16,12 @@ const HomePage = () => {
         new YellowPageApi().getBusinesses(),
         new YellowPageApi().getPeople(),
       ]);
-
       setBusinesses(businessResp.data);
       setPeople(peopleResp.data);
       setLoading(false);
     };
     fetchData();
   }, []);
-
-  console.log(businesses);
 
   return (
     <div>

@@ -27,3 +27,27 @@ export interface Location {
   zipCode: string;
   address: string;
 }
+
+export type BusinessFormType = {
+  name: { value: string };
+  description: { value: string };
+  email: { value: string };
+  phoneNumber: { value: string };
+  webSite: { value: string };
+  country: { value: string };
+  city: { value: string };
+  address: { value: string };
+  zipCode: { value: string };
+};
+
+export type PersonFormType = {
+  firstName: { value: string };
+  lastName: { value: string };
+  email: { value: string };
+  phoneNumber: { value: string };
+  webSite: { value: string };
+  country: { value: string };
+  city: { value: string };
+  address: { value: string };
+  zipCode: { value: string };
+};

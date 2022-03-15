@@ -26,9 +26,7 @@ const AddPage = () => {
           />
           <h4
             className={
-              formType === FormTypeOptions.person
-                ? "text--color-yellow"
-                : "text"
+              formType === FormTypeOptions.person ? "text--highlighted" : "text"
             }
           >
             Add person
@@ -46,7 +44,7 @@ const AddPage = () => {
           <h4
             className={
               formType === FormTypeOptions.business
-                ? "text--color-yellow"
+                ? "text--highlighted"
                 : "text"
             }
           >

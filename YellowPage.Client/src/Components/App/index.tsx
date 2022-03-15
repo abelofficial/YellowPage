@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import AddPage from "../../Pages/add";
-import DetailPage from "../../Pages/Detail";
+import AddPage from "../../Pages/Add";
+import EditBusinessPage from "../../Pages/EditBusinessPage";
+import EditPersonPage from "../../Pages/EditPersonPage";
 import HomePage from "../../Pages/Home";
 import NavBar from "../NavBar";
 
@@ -12,7 +13,8 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/add' element={<AddPage />} />
-          <Route path='/detail/:id' element={<DetailPage />} />
+          <Route path='/edit/person/:id' element={<EditPersonPage />} />
+          <Route path='/edit/business/:id' element={<EditBusinessPage />} />
         </Routes>
       </section>
     </main>

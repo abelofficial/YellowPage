@@ -1,12 +1,14 @@
 import React, { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { YellowPageApi } from "../../Services/YellowPageApi";
-import { Business } from "../types";
-import { AddNewBusinessFormType } from "./types";
+import { Business, BusinessFormType } from "../types";
 
 const AddBusinessForm = () => {
+  const navigate = useNavigate();
+
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const targets = e.target as typeof e.target & AddNewBusinessFormType;
+    const targets = e.target as typeof e.target & BusinessFormType;
     const newBusiness: Business = {
       name: targets.name.value,
       description: targets.description.value,
@@ -23,6 +25,7 @@ const AddBusinessForm = () => {
       },
     };
     await new YellowPageApi().createBusiness(newBusiness);
+    navigate("/");
   };
   return (
     <form onSubmit={submitHandler} className='form'>

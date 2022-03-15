@@ -23,7 +23,7 @@ namespace YellowPage.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Person>>> GetPerson()
         {
-            return await _context.Person.ToListAsync();
+            return await _context.Person.Include(b => b.Contact.Location).ToListAsync();
         }
 
         [HttpGet("{id}")]
