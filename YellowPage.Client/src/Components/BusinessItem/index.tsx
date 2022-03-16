@@ -12,7 +12,7 @@ const BusinessItem = ({ item }: BusinessItemProps) => {
     <div className='card'>
       <img src='/business_placeholder.png' alt='' className='image__avatars' />
       <h3 className='text'>{item.name}</h3>
-      <div>
+      <div style={{ padding: "1rem" }}>
         <small className='text--highlighted spacing-xs'>
           {item.description}
         </small>

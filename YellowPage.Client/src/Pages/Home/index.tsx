@@ -49,11 +49,11 @@ const HomePage = () => {
     if (businesses && people)
       return (
         <div>
-          {businesses.map((i) => (
-            <BusinessItem key={uuid()} item={i} />
-          ))}
           {people.map((i) => (
             <PersonItem key={uuid()} item={i} />
+          ))}
+          {businesses.map((i) => (
+            <BusinessItem key={uuid()} item={i} />
           ))}
         </div>
       );
