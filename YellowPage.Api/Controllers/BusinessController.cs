@@ -20,9 +20,19 @@ namespace YellowPage.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Business>>> GetBusiness()
+        public async Task<ActionResult<IEnumerable<Business>>> GetBusiness(string? filterTerm)
         {
-            return await _context.Business.Include(b => b.Contact.Location).ToListAsync();
+            return await _context.Business
+            .Include(b => b.Contact.Location)
+            .Where(b => filterTerm == null ? true :
+                           b.Name.Contains(filterTerm)
+                        || b.Contact.Email.Contains(filterTerm)
+                        || b.Contact.PhoneNumber.Contains(filterTerm)
+                        || b.Contact.Location.Country.Contains(filterTerm)
+                        || b.Contact.Location.City.Contains(filterTerm)
+                        || b.Contact.Location.Address.Contains(filterTerm)
+                        || b.Contact.Location.ZipCode.Contains(filterTerm))
+            .ToListAsync();
         }
 
         [HttpGet("{id}")]

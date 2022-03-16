@@ -1,3 +1,7 @@
+export enum ModelTypes {
+  Business = "Business",
+  Person = "Person",
+}
 export interface Business {
   id?: number;
   name: string;

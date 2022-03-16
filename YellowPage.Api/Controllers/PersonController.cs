@@ -21,9 +21,20 @@ namespace YellowPage.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Person>>> GetPerson()
+        public async Task<ActionResult<IEnumerable<Person>>> GetPerson(string? filterTerm)
         {
-            return await _context.Person.Include(b => b.Contact.Location).ToListAsync();
+            return await _context.Person
+            .Include(p => p.Contact.Location)
+            .Where(p => filterTerm == null ? true :
+                           p.FirstName.Contains(filterTerm)
+                        || p.LastName.Contains(filterTerm)
+                        || p.Contact.Email.Contains(filterTerm)
+                        || p.Contact.PhoneNumber.Contains(filterTerm)
+                        || p.Contact.Location.Country.Contains(filterTerm)
+                        || p.Contact.Location.City.Contains(filterTerm)
+                        || p.Contact.Location.Address.Contains(filterTerm)
+                        || p.Contact.Location.ZipCode.Contains(filterTerm))
+            .ToListAsync();
         }
 
         [HttpGet("{id}")]

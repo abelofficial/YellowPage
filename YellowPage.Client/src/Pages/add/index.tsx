@@ -17,23 +17,6 @@ const AddPage = () => {
       <header className='add__header'>
         <div
           className='add__section'
-          onClick={() => setFormType(FormTypeOptions.person)}
-        >
-          <img
-            src='/person_placeholder.png'
-            alt=''
-            className='image__avatars'
-          />
-          <h4
-            className={
-              formType === FormTypeOptions.person ? "text--highlighted" : "text"
-            }
-          >
-            Add person
-          </h4>
-        </div>
-        <div
-          className='add__section'
           onClick={() => setFormType(FormTypeOptions.business)}
         >
           <img
@@ -49,6 +32,23 @@ const AddPage = () => {
             }
           >
             Add business
+          </h4>
+        </div>
+        <div
+          className='add__section'
+          onClick={() => setFormType(FormTypeOptions.person)}
+        >
+          <img
+            src='/person_placeholder.png'
+            alt=''
+            className='image__avatars'
+          />
+          <h4
+            className={
+              formType === FormTypeOptions.person ? "text--highlighted" : "text"
+            }
+          >
+            Add person
           </h4>
         </div>
       </header>

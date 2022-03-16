@@ -6,7 +6,10 @@ export class YellowPageApi extends HttpClientBase {
     super("https://localhost:7113/api");
   }
 
-  public getBusinesses = () => this.instance.get<Business[]>("/business");
+  public getBusinesses = (filterTerm?: string) =>
+    this.instance.get<Business[]>(
+      `/business?filterTerm=${filterTerm ? filterTerm : ""}`
+    );
 
   public getBusiness = (id: string) =>
     this.instance.get<Business>(`/business/${id}`);
@@ -28,7 +31,10 @@ export class YellowPageApi extends HttpClientBase {
 
   public removePerson = (id: string) => this.instance.delete(`/person/${id}`);
 
-  public getPeople = () => this.instance.get<Person[]>("/person");
+  public getPeople = (filterTerm?: string) =>
+    this.instance.get<Person[]>(
+      `/person?filterTerm=${filterTerm ? filterTerm : ""}`
+    );
 
   public getPerson = (id: string) => this.instance.get<Person>(`/person/${id}`);
 }
