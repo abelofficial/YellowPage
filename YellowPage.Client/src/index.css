@@ -1,0 +1,222 @@
+:root {
+  --color-primary: #ede341;
+  --color-text-primary: #111111;
+  --color-text-secondary: #999215;
+  --color-lightGray: #ebeadd;
+  --boxShadow-light: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  --boxShadow-deep: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
+    0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+}
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  padding-top: 4.5rem;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.app__toolbar {
+  width: 100vw;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2000;
+  top: 0;
+  box-shadow: var(--boxShadow-deep);
+  background-color: var(--color-primary);
+}
+
+.toolbar__linksContainer,
+.toolbar__logoContainer {
+  display: flex;
+  align-items: center;
+  padding: 1.3rem 1rem;
+}
+
+.toolbar__link {
+  text-decoration: none;
+  color: var(--color-text-primary);
+  margin: 0 0.5rem;
+  font-weight: 500;
+}
+
+.image__logo {
+  width: 2rem;
+  height: 2rem;
+  margin: 0 0.5rem;
+}
+
+.image__avatars {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 0.5rem;
+}
+
+.app__container {
+  min-height: 100vh;
+  max-width: 50rem;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1500;
+}
+
+.container--centered {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search__container {
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  align-content: center;
+  background-color: var(--color-lightGray);
+}
+
+.search__section {
+  display: flex;
+  align-items: center;
+  width: 85%;
+}
+
+.page__add,
+.add__header {
+  width: 100%;
+}
+
+.add__header {
+  height: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: var(--color-lightGray);
+}
+
+.add__section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 2rem 0rem;
+}
+
+.form__inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+.form__input {
+  padding: 0 0.8rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  border: 0.02em solid var(--color-lightGray);
+  box-shadow: var(--boxShadow-light);
+}
+
+.card {
+  margin: 2rem auto;
+  padding: 1rem 0;
+  width: 90%;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--boxShadow-light);
+  border: 0.01em solid var(--color-lightGray);
+}
+
+.card__detailContainer {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0 1rem;
+}
+
+.text {
+  color: var(--color-text-primary);
+}
+
+.text__inputLabel {
+  font-size: 0.9em;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.text--bold {
+  font-weight: 500;
+}
+.text--highlighted {
+  color: var(--color-text-secondary);
+}
+
+.button {
+  cursor: pointer;
+  text-transform: capitalize;
+  padding: 0.5rem 1.5rem;
+  margin: 0 0.5rem;
+  width: fit-content;
+  border-radius: 1rem;
+  border: 0.01em solid var(--color-lightGray);
+  box-shadow: var(--boxShadow-deep);
+}
+
+.button:focus {
+  box-shadow: var(--boxShadow-light);
+}
+
+.button__submit {
+  align-self: center;
+}
+
+.button--pos-right {
+  margin: 0.5rem;
+  align-self: flex-end;
+}
+
+.button--bg-green {
+  background-color: #008000;
+  color: #fff;
+}
+
+.button--bg-red {
+  background-color: #da1515;
+  color: #fff;
+}
+
+.button--bg-yellow {
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+.spacing-xs {
+  padding: 0.2em;
+}
+
+.width-full {
+  width: 60%;
+}
