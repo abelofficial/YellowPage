@@ -3,7 +3,7 @@ import { HttpClientBase } from "../Utils/HttpClientBase";
 
 export class YellowPageApi extends HttpClientBase {
   public constructor() {
-    super("https://localhost:7113/api");
+    super(process.env.REACT_APP_YELLOW_PAGE_API);
   }
 
   public getBusinesses = (filterTerm?: string) =>
