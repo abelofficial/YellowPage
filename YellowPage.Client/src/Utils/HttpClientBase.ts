@@ -6,6 +6,10 @@ export abstract class HttpClientBase {
   public constructor(baseURL: string) {
     this.instance = axios.create({
       baseURL,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      },
     });
   }
 }
