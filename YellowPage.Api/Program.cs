@@ -1,8 +1,27 @@
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<YellowPageDb>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("YellowPageDb")));
+
+
+
+if (Environment.GetEnvironmentVariable("ENVIRONMENT") == "production")
+{
+    var conStrBuilder = new SqlConnectionStringBuilder(
+        builder.Configuration.GetConnectionString("YellowPageDbProd"));
+
+    // Fetch connection secrets
+    conStrBuilder.DataSource = Environment.GetEnvironmentVariable("DbServer");
+    conStrBuilder.UserID = Environment.GetEnvironmentVariable("DbUserId");
+    conStrBuilder.Password = Environment.GetEnvironmentVariable("DbPassword");
+    builder.Services.AddDbContext<YellowPageDb>(options =>
+    options.UseSqlServer(conStrBuilder.ConnectionString));
+}
+else
+{
+    builder.Services.AddDbContext<YellowPageDb>(options =>
+       options.UseSqlServer(builder.Configuration.GetConnectionString("YellowPageDb")));
+}
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Add services to the container.
@@ -14,15 +33,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+
+
+app.UseSwagger();
+app.UseSwaggerUI(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.DefaultModelsExpandDepth(-1);
-    });
-}
+    options.DefaultModelsExpandDepth(-1);
+});
 
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
 
