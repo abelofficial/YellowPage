@@ -8,6 +8,7 @@ using YellowPage.Api.Services;
 namespace YellowPage.Api.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -21,9 +22,23 @@ namespace YellowPage.Api.Controllers
 
 
         [HttpPost("/signin")]
-        public ActionResult SignInUser()
+        public ActionResult<LoginUserResponseDto> SignInUser(LoginUserRequestDto request)
         {
-            return Problem("Endpoint not implemented!");
+            try
+            {
+                var response = _service.LogIn(request.UserName, request.Password);
+
+                return Ok(response);
+            }
+            catch (InvalidDataException e)
+            {
+                return BadRequest(new { Status = StatusCodes.Status400BadRequest, Message = e.Message });
+            }
+            catch
+            {
+                return Problem();
+            }
+
         }
 
         [AllowAnonymous]

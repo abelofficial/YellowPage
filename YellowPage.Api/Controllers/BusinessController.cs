@@ -8,6 +8,7 @@ using YellowPage.Api.Models;
 
 namespace YellowPage.Api.Controllers
 {
+
     [Authorize]
     [Route("api/[controller]")]
     [Produces("application/json")]
@@ -22,10 +23,9 @@ namespace YellowPage.Api.Controllers
             _mapper = mapper;
         }
 
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Business>>> GetBusiness(string? filterTerm)
-        {
-            return await _context.Business
+        public async Task<ActionResult<IEnumerable<Business>>> GetBusiness(string? filterTerm) => await _context.Business
             .Include(b => b.Contact.Location)
             .Where(b => filterTerm == null ? true :
                            b.Name.Contains(filterTerm)
@@ -36,7 +36,6 @@ namespace YellowPage.Api.Controllers
                         || b.Contact.Location.Address.Contains(filterTerm)
                         || b.Contact.Location.ZipCode.Contains(filterTerm))
             .ToListAsync();
-        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Business>> GetBusiness(int id)

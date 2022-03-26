@@ -43,6 +43,7 @@ builder.Services.AddAuthentication(x =>
             var userService = context.HttpContext.RequestServices.GetRequiredService<IAuthService>();
             var userId = int.Parse(context.Principal.Identity.Name);
             var user = userService.GetById(userId);
+
             if (user == null)
             {
                 // return unauthorized if user no longer exists
@@ -114,9 +115,14 @@ app.UseSwaggerUI(options =>
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseRouting();
 app.UseAuthentication();
 
-app.MapControllers();
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.Run();
