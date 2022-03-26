@@ -1,4 +1,9 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using YellowPage.Api.Dtos;
+using YellowPage.Api.Models;
+using YellowPage.Api.Services;
 
 namespace YellowPage.Api.Controllers
 {
@@ -6,11 +11,12 @@ namespace YellowPage.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly YellowPageDb _context;
-
-        public AuthController(YellowPageDb context)
+        private readonly IAuthService _service;
+        private IMapper _mapper;
+        public AuthController(IAuthService service, IMapper mapper)
         {
-            _context = context;
+            _service = service;
+            _mapper = mapper;
         }
 
 
@@ -20,10 +26,24 @@ namespace YellowPage.Api.Controllers
             return Problem("Endpoint not implemented!");
         }
 
-        [HttpPost("/signup")]
-        public ActionResult SignUpUser()
+        [AllowAnonymous]
+        [HttpPost("/register")]
+        public ActionResult SignUpUser(RegisterUserDto request)
         {
-            return Problem("Endpoint not implemented!");
+            // map model to entity
+            var user = _mapper.Map<User>(request);
+
+            try
+            {
+                // create user
+                _service.Register(user, request.Password);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

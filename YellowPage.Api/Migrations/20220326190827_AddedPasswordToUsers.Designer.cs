@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YellowPage.Api.Data;
 
@@ -11,9 +12,10 @@ using YellowPage.Api.Data;
 namespace YellowPage.Api.Migrations
 {
     [DbContext(typeof(YellowPageDb))]
-    partial class YellowPageDbModelSnapshot : ModelSnapshot
+    [Migration("20220326190827_AddedPasswordToUsers")]
+    partial class AddedPasswordToUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

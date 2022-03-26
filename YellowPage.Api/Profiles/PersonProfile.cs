@@ -4,9 +4,9 @@ using YellowPage.Api.Models;
 
 namespace YellowPage.Api.Profiles;
 
-public class UserProfile : Profile
+public class PersonProfile : Profile
 {
-    public UserProfile()
+    public PersonProfile()
     {
         CreateMap<PersonRequestDto, Person>()
             .ForMember(

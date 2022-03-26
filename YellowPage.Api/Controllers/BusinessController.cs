@@ -1,11 +1,14 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using YellowPage.Api.Data;
 using YellowPage.Api.Dtos;
 using YellowPage.Api.Models;
 
 namespace YellowPage.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
