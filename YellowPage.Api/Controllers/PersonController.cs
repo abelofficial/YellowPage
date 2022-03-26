@@ -82,6 +82,7 @@ namespace YellowPage.Api.Controllers
         public async Task<ActionResult<Person>> PostPerson(PersonRequestDto request)
         {
             var mappedPerson = _mapper.Map<Person>(request);
+            mappedPerson.AddedBy = _context.User.Find(Int32.Parse(User.Identity.Name));
             var newPerson = _context.Person.Add(mappedPerson).Entity;
             await _context.SaveChangesAsync();
 

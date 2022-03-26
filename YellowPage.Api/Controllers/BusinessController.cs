@@ -78,6 +78,7 @@ namespace YellowPage.Api.Controllers
         public async Task<ActionResult<Business>> PostBusiness(BusinessRequestDto request)
         {
             var mappedBussiness = _mapper.Map<Business>(request);
+            mappedBussiness.AddedBy = _context.User.Find(Int32.Parse(User.Identity.Name));
             var newBusiness = _context.Business.Add(mappedBussiness).Entity;
             await _context.SaveChangesAsync();
 
