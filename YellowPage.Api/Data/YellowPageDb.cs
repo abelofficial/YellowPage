@@ -15,4 +15,6 @@ using YellowPage.Api.Models;
         public DbSet<YellowPage.Api.Models.Person> Person { get; set; }
 
         public DbSet<YellowPage.Api.Models.Business> Business { get; set; }
+
+        public DbSet<YellowPage.Api.Models.User> User { get; set; }
     }

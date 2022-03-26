@@ -9,4 +9,6 @@ public class Business
     public string Description { get; set; }
 
     public virtual Contact Contact { get; set; }
+
+    public virtual User AddedBy { get; set; }
 }

@@ -1,6 +1,5 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,16 +33,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-        builder =>
-        {
-            builder.WithOrigins("http://localhost:3000", "https://yellow-page.vercel.app", "https://yellowpage.abel.st")
-            .WithHeaders(HeaderNames.AccessControlAllowOrigin, "*");
-        });
-});
+
 
 
 var app = builder.Build();
@@ -56,7 +46,7 @@ app.UseSwaggerUI(options =>
     options.DefaultModelsExpandDepth(-1);
 });
 
-app.UseCors(MyAllowSpecificOrigins);
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
 
 
 

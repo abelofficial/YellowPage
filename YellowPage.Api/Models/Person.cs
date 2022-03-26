@@ -10,4 +10,5 @@ public class Person
 
     public virtual Contact Contact { get; set; }
 
+    public virtual User AddedBy { get; set; }
 }
